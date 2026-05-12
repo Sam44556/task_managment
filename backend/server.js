@@ -29,6 +29,14 @@ app.get("/", (req, res) => {
   res.json({ message: "Hello, Welocome To Vooshfoods" });
 });
 
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "Backend is working!",
+    cors: process.env.FRONTEND_BASE_URL,
+    port: process.env.PORT
+  });
+});
+
 app.listen(PORT, async () => {
   await connectDB();
   console.log(`Server started on PORT: ${PORT}`);

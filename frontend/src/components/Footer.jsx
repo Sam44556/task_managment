@@ -1,26 +1,13 @@
 const Footer = () => {
   return (
-    <div className="flex justify-center content-center gap-4">
-      <h1>Made with ❤ by Razak |</h1>
-      <a
-        href="https://github.com/razak571"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub |
-      </a>
-      <a
-        href="https://linkedin.com/in/razakattar"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        LinkedIn |
-      </a>
-      <h1>
-        Note: this is a personal project for demo purpose only, not a SAAS
-        service yet. Reach out to me if you have queries
-      </h1>
-    </div>
+    <footer className="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 text-white py-6 mt-auto">
+      <div className="max-w-7xl mx-auto px-4 text-center">
+        <p className="text-gray-400 text-sm">
+          &copy; {new Date().getFullYear()} Task Manager. All rights reserved. Built with ❤️ using MERN Stack
+        </p>
+      </div>
+    </footer>
   );
 };
+
 export default Footer;

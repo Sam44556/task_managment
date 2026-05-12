@@ -5,11 +5,10 @@ import Button from "./Button";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { app } from "../firebase";
 import { useDispatch } from "react-redux";
-//logout
 import { setCredentials } from "../redux/features/auth/authSlice";
 import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
-const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+import axios from "../api/axios";
 
 const OAuth = ({ title }) => {
   const auth = getAuth(app);
@@ -21,27 +20,19 @@ const OAuth = ({ title }) => {
     provider.setCustomParameters({ prompt: "select_account" });
     try {
       const resultsFromGoogle = await signInWithPopup(auth, provider);
-      //   console.log(resultsFromGoogle);
-      const res = await fetch(`${baseUrl}/api/v1/user/google`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: resultsFromGoogle.user.displayName,
-          email: resultsFromGoogle.user.email,
-          googlePhotoUrl: resultsFromGoogle.user.photoURL,
-        }),
+      const res = await axios.post("/api/v1/user/google", {
+        name: resultsFromGoogle.user.displayName,
+        email: resultsFromGoogle.user.email,
+        googlePhotoUrl: resultsFromGoogle.user.photoURL,
       });
 
-      const data = await res.json();
-      if (res.ok) {
-        dispatch(setCredentials(data));
-        toast.success("Login successful");
-        navigate("/");
-      }
+      const data = res.data;
+      dispatch(setCredentials(data));
+      toast.success("Login successful");
+      navigate("/");
     } catch (error) {
       console.error(error);
+      toast.error("Google sign-in failed");
     }
   };
 
